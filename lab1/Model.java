@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author Grace Li
+ *  @author TODO: YOUR NAME HERE
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -113,66 +113,7 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-        // Create a set to keep track of moved tiles
-//        Set<Tile> movedTiles = new HashSet<>();
 
-        // switch the board side, the Side side on the top, its left-bottom is (0,0)
-        board.setViewingPerspective(side);
-        // check if the tile is already merged
-        boolean[][] merged = new boolean[board.size()][board.size()];
-        // col after switch from left
-        for (int i = 0; i < board.size(); i++) {
-            //row after switch from top(first tile is the left-top)
-            //if t is the topmost, no need to move, so start from next row(topmost - 2)
-            for (int j = board.size() - 2; j >= 0; j--) {
-                // current tile t
-                Tile t = board.tile(i, j);
-                //skip empty tile
-                if (t == null) {
-                    continue;
-                }
-                //if not null, prepare to move
-                //set next row k is the one above row j: (j + 1)
-                int k = j + 1;
-                while (k < board.size() - 1 && board.tile(i, k) == null) {
-                    //if this tile is empty, continue up
-                    k++;
-                }
-
-                //if next tile not empty and has not merged, check its value
-                if (k < board.size() && k >= 0) {
-                    Tile tTarget = board.tile(i, k);
-                    if (!merged[i][k]) {
-                        // if the tile has value
-                        if (tTarget != null) {
-                            if (t.value() == tTarget.value()) {
-                                // same value, merge
-                                board.move(i, k, t);
-                                score += t.value() * 2;
-                                merged[i][k] = true;
-                                changed = true;
-                            } else {
-                                // not the same value, move to target's below
-                                board.move(i, k - 1, t);
-                                changed = true;
-                            }
-                        } else {
-                            // if the target tile is empty
-                            board.move(i, k, t);
-                            changed = true;
-                        }
-
-                    } else {
-                        // is merged so move to one tile below
-                        board.move(i, k - 1, t);
-                        changed = true;
-                    }
-                }
-
-            }
-        }
-        // reset side
-        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
@@ -197,15 +138,6 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
-        /* System.out.println(b.size());
-            System.out.println(b.tile(1, 0)); */
-        for(int i = 0; i < b.size(); i++) {
-            for(int j = 0; j < b.size(); j++) {
-                if(b.tile(i, j) == null) {
-                    return true;
-                }
-            }
-        }
         return false;
     }
 
@@ -216,14 +148,6 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
-        for (int i = 0; i < b.size(); i++) {
-            for (int j = 0; j < b.size(); j++) {
-                if (b.tile(i, j) == null) continue;
-                if (b.tile(i, j).value() == MAX_PIECE) {
-                    return true;
-                }
-            }
-        }
         return false;
     }
 
@@ -235,53 +159,6 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
-        for (int i = 0; i < b.size(); i++) {
-            for (int j = 0; j < b.size(); j++) {
-                Tile current = b.tile(i, j);
-                if (b.tile(i, j) == null) {
-                    return true;
-                }
-                if (i < b.size() - 1) {
-                    Tile right = b.tile(i + 1, j);
-                    if (right != null && current.value() == right.value()) {
-                        return true;
-                    }
-                }
-                // Check if the tile below can be merged with the current tile
-                if (j < b.size() - 1) {
-                    Tile below = b.tile(i, j + 1);
-                    if (below != null && current.value() == below.value()) {
-                        return true;
-                    }
-                }
-                // if there is no empty tile
-                //col not left
-//                if (i < (b.size() - 1)) {
-//                    if (b.tile(i + 1, j).value() == b.tile(i, j).value()) {
-//                        return true;
-//                    }
-//                }
-//                //col not right
-//                if (i > 0) {
-//                    if (b.tile(i - 1, j).value() == b.tile(i, j).value()) {
-//                        return true;
-//                    }
-//                }
-//                //row not top
-//                if (j > 0) {
-//                    if (b.tile(i, j - 1).value() == b.tile(i, j).value()) {
-//                        return true;
-//                    }
-//                }
-//                //row not bottom
-//                if (j < (b.size() - 1)) {
-//                    if (b.tile(i, j + 1).value() == b.tile(i, j).value()) {
-//                        return true;
-//                    }
-//                }
-
-            }
-        }
         return false;
     }
 
