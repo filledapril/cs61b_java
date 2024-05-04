@@ -5,11 +5,20 @@ package DebugExercise;
  * feature work.
  */
 public class DebugExercise1 {
-    public static int divideThenRound(int top, int bottom) {
-        int quotient = top / bottom;
-        int result = Math.round(quotient);
-        return result;
-    }
+//    public static int divideThenRound(int top, int bottom) {
+//        //int will truncate the result make integer less than 0 to only be 0, which is not correct
+//        double quotient = (double) top / bottom;
+////
+//        if (quotient < 0) {
+//            return (int) quotient;
+//        } else {
+//            return Math.round((float) quotient);
+//        }
+//
+//    }
+        public static int divideThenRound(double top, double bottom) {
+            return (int) Math.round(top / bottom);
+        }
 
     public static void main(String[] args) {
         int t = 10;
